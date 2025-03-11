@@ -1,0 +1,25 @@
+/* src/components/Flashcard/Flashcard.css */
+.flashcard {
+  width: 100%;
+  min-height: 200px;
+  background-color: #e0f7fa;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  cursor: pointer;
+  transition: transform 0.3s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.flashcard:hover {
+  transform: scale(1.02);
+}
+
+.flashcard p {
+  margin: 0;
+  font-size: 1.2rem;
+  text-align: center;
+  color: #000; /* Ensures text is visible on a light background */
+}

@@ -1,0 +1,23 @@
+/* src/components/StartScreen/StartScreen.css */
+.start-screen {
+    padding: 2rem;
+    text-align: center;
+    background-color: #fdfdfd;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  
+  .start-button {
+    margin-top: 1rem;
+    padding: 0.8rem 1.2rem;
+    font-size: 1rem;
+    background-color: #333;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .start-button:hover {
+    background-color: #555;
+  }

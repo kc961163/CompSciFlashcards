@@ -1,0 +1,13 @@
+/* src/App.css */
+.app {
+  width: 90%;
+  max-width: 600px;
+  /* margin: 0 auto;  // horizontally center if body is block */
+  /* If body is a flex container with column direction, you can omit margin auto */
+  padding: 20px;
+  background: #fff;
+  color: #000;
+  border-radius: 8px;
+  text-align: center;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}

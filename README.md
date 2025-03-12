@@ -19,12 +19,12 @@ The following **optional** features are implemented:
 
 - [X] A shuffle button is used to randomize the order of the cards
 - [X] A user's answer may be counted as correct even when it is slightly different from the target answer
-- [] A counter displays the user's current and longest streak of correct responses
+- [X] A counter displays the user's current and longest streak of correct responses
 - [ ] A user can mark a card that they have mastered and have it removed from the pool of answers as well as added to a list of mastered cards
 
 The following **additional** features are implemented:
 
-* [ ] List anything else that you added to improve the site's functionality!
+- [X] Modified the start page to include a brief description of the app and a button to start the flashcards
 
 ## Video Walkthrough
 

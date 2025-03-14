@@ -5,6 +5,10 @@
   align-items: center;
 }
 
+.streak-display {
+  margin-top: 1rem;
+}
+
 .guess-section {
   margin-top: 1rem;
   display: flex;

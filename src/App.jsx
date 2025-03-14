@@ -4,6 +4,7 @@ import "./App.css";
 import StartScreen from "./components/StartScreen/StartScreen";
 import FlashcardLayout from "./components/FlashcardLayout/FlashcardLayout";
 import shuffle from "lodash.shuffle";
+import EndScreen from "./components/EndScreen/EndScreen";
 
 
 const App = () => {
@@ -32,99 +33,140 @@ const App = () => {
     // Add more flashcards as needed...
   ];
   
-  // New state: cardOrder holds the shuffled flashcards order.
-  const [cardOrder, setCardOrder] = useState(flashcards);
-  // State to control whether to show the start screen.
   const [showStartScreen, setShowStartScreen] = useState(true);
-  // State for the current card index.
+  const [cardOrder, setCardOrder] = useState(flashcards); // Active deck; will be shuffled on start
   const [currentIndex, setCurrentIndex] = useState(0);
-  // State for whether the current card is flipped.
   const [isFlipped, setIsFlipped] = useState(false);
-  // State for the user's guess.
   const [userGuess, setUserGuess] = useState("");
   const [isCorrect, setIsCorrect] = useState(null);
-  // New state for tracking the user's streaks.
+
+  // New state for streak counters:
   const [currentStreak, setCurrentStreak] = useState(0);
   const [maxStreak, setMaxStreak] = useState(0);
+  // New state for mastered cards:
+  const [masteredCards, setMasteredCards] = useState([]);
 
-  // Updated handleStart: shuffle the flashcards and pick a random starting index.
+  // New state for ending the quiz:
+  const [showEndScreen, setShowEndScreen] = useState(false);
+
+  // When the user clicks the Start button:
   const handleStart = () => {
     const shuffled = shuffle(flashcards);
     setCardOrder(shuffled);
+    setCurrentIndex(0); // Start at index 0 of the shuffled array
     setShowStartScreen(false);
   };
 
-  // Handler to flip the card.
+  // Toggle the flip state of the current card:
   const handleFlip = () => {
     setIsFlipped(prev => !prev);
   };
 
-  // Updated Next button: sequential navigation.
+  // Navigate to the next card (sequentially):
   const handleNextCard = () => {
     if (currentIndex < cardOrder.length - 1) {
       setCurrentIndex(currentIndex + 1);
-      setIsFlipped(false);
-      setUserGuess("");     // reset guess
-      setIsCorrect(null);   // reset feedback
+      resetCardState();
     }
   };
 
-  // Updated Back button: sequential navigation.
+  // Navigate to the previous card (sequentially):
   const handlePrevCard = () => {
     if (currentIndex > 0) {
       setCurrentIndex(currentIndex - 1);
-      setIsFlipped(false);
-      setUserGuess("");     // reset guess
-      setIsCorrect(null);   // reset feedback
+      resetCardState();
     }
   };
 
-  // New handler for shuffling from the flashcard layout.
+  // Shuffle the active deck:
   const handleShuffle = () => {
     const shuffled = shuffle(flashcards);
     setCardOrder(shuffled);
     setCurrentIndex(0);
-    setIsFlipped(false);
+    resetCardState();
   };
 
-  // New handler to return to the start screen.
+  // Handler to reset flip state, guess input, and feedback:
+  const resetCardState = () => {
+    setIsFlipped(false);
+    setUserGuess("");
+    setIsCorrect(null);
+  };
+
+  // Handle guess submission with fuzzy matching and streak updates:
+  const handleSubmitGuess = () => {
+    const correctAnswer = cardOrder[currentIndex].answer;
+    const guess = userGuess.trim().toLowerCase();
+    const answer = correctAnswer.trim().toLowerCase();
+
+    if (answer.includes(guess) || guess.includes(answer)) {
+      setIsCorrect(true);
+      // Update streak: increase current streak and update max streak if needed
+      setCurrentStreak(prev => {
+        const newStreak = prev + 1;
+        if (newStreak > maxStreak) {
+          setMaxStreak(newStreak);
+        }
+        return newStreak;
+      });
+    } else {
+      setIsCorrect(false);
+      setCurrentStreak(0);
+    }
+  };
+
+  // Handle marking a card as mastered:
+  const handleMarkMastered = () => {
+    const currentCard = cardOrder[currentIndex];
+    // Use card.question as a simple unique identifier
+    if (!masteredCards.includes(currentCard.question)) {
+      setMasteredCards(prev => [...prev, currentCard.question]);
+    }
+    // Remove mastered card from the active deck
+    const updatedDeck = cardOrder.filter(card => card.question !== currentCard.question);
+    setCardOrder(updatedDeck);
+    // If no cards remain, show the End Screen
+    if (updatedDeck.length === 0) {
+      setShowEndScreen(true);
+    } else {
+      setCurrentIndex(0); // reset to the first card of the updated deck
+    }
+    resetCardState();
+  };
+
+  // Handler to return to the start screen (e.g., after ending the quiz)
   const handleReturnToStart = () => {
+    // Reset all states to their initial values
     setShowStartScreen(true);
+    setCardOrder(flashcards);
     setCurrentIndex(0);
     setIsFlipped(false);
-    setUserGuess("");     // reset guess
-    setIsCorrect(null);   // reset feedback
+    setUserGuess("");
+    setIsCorrect(null);
+    setCurrentStreak(0);
+    setMaxStreak(0);
+    setMasteredCards([]);
+    setShowEndScreen(false);
   };
 
-  // Update handleSubmitGuess to incorporate streak tracking:
-const handleSubmitGuess = () => {
-  const correctAnswer = cardOrder[currentIndex].answer;
-  const guess = userGuess.trim().toLowerCase();
-  const answer = correctAnswer.trim().toLowerCase();
-
-  // Fuzzy matching logic
-  if (answer.includes(guess) || guess.includes(answer)) {
-    setIsCorrect(true);
-    // Update current streak
-    setCurrentStreak(prevStreak => {
-      const newStreak = prevStreak + 1;
-      // If new streak exceeds max streak, update max streak
-      if (newStreak > maxStreak) {
-        setMaxStreak(newStreak);
-      }
-      return newStreak;
-    });
-  } else {
-    setIsCorrect(false);
-    // Reset current streak if answer is incorrect
-    setCurrentStreak(0);
-  }
-};
-
+  // Main render logic:
   return (
     <div className="app">
-      {showStartScreen ? (
-        <StartScreen flashcardsCount={flashcards.length} onStart={handleStart} />
+      {showEndScreen ? (
+        // Render EndScreen component when quiz is finished (not shown here, assumed to be implemented)
+        <EndScreen 
+          currentStreak={currentStreak}
+          maxStreak={maxStreak}
+          masteredCount={masteredCards.length}
+          onRestart={handleReturnToStart}
+        />
+      ) : showStartScreen ? (
+        <StartScreen 
+          flashcardsCount={flashcards.length} 
+          onStart={handleStart}
+          currentStreak={currentStreak}
+          maxStreak={maxStreak}
+        />
       ) : (
         <FlashcardLayout 
           flashcards={cardOrder}
@@ -138,7 +180,7 @@ const handleSubmitGuess = () => {
           onNextCard={handleNextCard}
           onPrevCard={handlePrevCard}
           onShuffle={handleShuffle}
-          onReturnToStart={handleReturnToStart}
+          onMarkMastered={handleMarkMastered}
           currentStreak={currentStreak}
           maxStreak={maxStreak}
         />

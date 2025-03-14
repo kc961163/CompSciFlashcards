@@ -21,3 +21,13 @@
   .start-button:hover {
     background-color: #555;
   }
+
+  .streak-info {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: #666;
+  }
+  
+  .streak-info p {
+    margin: 0.3rem 0;
+  }

@@ -1,0 +1,37 @@
+/* src/components/EndScreen/EndScreen.css */
+.end-screen {
+  padding: 2rem;
+  text-align: center;
+  background-color: #f8f8f8;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  max-width: 500px;
+  margin: 2rem auto;
+}
+
+.end-screen h1 {
+  margin-bottom: 1rem;
+  color: #333;
+}
+
+.end-screen p {
+  margin: 0.5rem 0;
+  font-size: 1rem;
+  color: #555;
+}
+
+.restart-button {
+  margin-top: 1.5rem;
+  padding: 0.8rem 1.2rem;
+  font-size: 1rem;
+  background-color: #333;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.restart-button:hover {
+  background-color: #555;
+}

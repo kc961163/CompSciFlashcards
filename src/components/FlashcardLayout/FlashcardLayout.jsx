@@ -3,19 +3,20 @@ import React from "react";
 import Flashcard from "../Flashcard/Flashcard";
 import "./FlashcardLayout.css";
 
-function FlashcardLayout({ 
-  flashcards, 
-  currentIndex, 
-  isFlipped, 
-  onFlip, 
+function FlashcardLayout({
+  flashcards,
+  currentIndex,
+  isFlipped,
+  onFlip,
   userGuess,
   setUserGuess,
   isCorrect,
   onSubmitGuess,
-  onNextCard, 
-  onPrevCard, 
-  onShuffle, 
-  onReturnToStart,
+  onNextCard,
+  onPrevCard,
+  onShuffle,
+  onMarkMastered,
+  // onReturnToStart,
   currentStreak,
   maxStreak
 }) {
@@ -26,29 +27,34 @@ function FlashcardLayout({
         isFlipped={isFlipped} 
         onFlip={onFlip} 
       />
+
       {/* Display streak counters */}
       <div className="streak-display">
         <p>Current Streak: {currentStreak}</p>
         <p>Longest Streak: {maxStreak}</p>
       </div>
-      {/* Input for user's guess and submit button */}
-      <div className="guess-section">
-        <input
-          type="text"
-          className="guess-input"
-          value={userGuess}
-          onChange={(e) => setUserGuess(e.target.value)}
-          placeholder="Enter your guess"
-        />
-        <button className="submit-button" onClick={onSubmitGuess}>
-          Submit
-        </button>
-        {isCorrect !== null && (
-          <p className={`feedback ${isCorrect ? "correct" : "incorrect"}`}>
-            {isCorrect ? "Correct!" : "Incorrect, try again!"}
-          </p>
-        )}
-      </div>
+
+      {/* Guess Section: visible when card is not flipped */}
+      {!isFlipped && (
+        <div className="guess-section">
+          <input
+            type="text"
+            className="guess-input"
+            value={userGuess}
+            onChange={(e) => setUserGuess(e.target.value)}
+            placeholder="Enter your guess"
+          />
+          <button className="submit-button" onClick={onSubmitGuess}>
+            Submit
+          </button>
+          {isCorrect !== null && (
+            <p className={`feedback ${isCorrect ? "correct" : "incorrect"}`}>
+              {isCorrect ? "Correct!" : "Incorrect, try again!"}
+            </p>
+          )}
+        </div>
+      )}
+
       <div className="navigation-buttons">
         <button className="nav-button" onClick={onPrevCard} disabled={currentIndex === 0}>
           Back
@@ -59,9 +65,12 @@ function FlashcardLayout({
         <button className="nav-button" onClick={onShuffle}>
           Shuffle
         </button>
-        <button className="nav-button" onClick={onReturnToStart}>
-          Return to Start
+        <button className="nav-button" onClick={onMarkMastered}>
+          Mastered
         </button>
+        {/* <button className="nav-button" onClick={onReturnToStart}>
+          Return to Start
+        </button> */}
       </div>
     </div>
   );

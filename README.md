@@ -2,9 +2,13 @@
 
 Submitted by: Krishna Choudhary
 
-This web app: **insert description**
+This web app is an interactive flashcards quiz designed for computer science enthusiasts. Users can test their knowledge by entering guesses for various CS-related questions before revealing the answer. The app provides immediate visual feedback on whether an answer is correct (with fuzzy matching to account for slight differences), and it tracks both the current and longest streaks of correct responses.
 
-Time spent: **X** hours spent in total
+The quiz includes intuitive navigation through back and next buttons, along with a shuffle feature to randomize the order of the cards. Users also have the option to mark cards as mastered, removing them from the active pool and adding them to a mastered list.
+
+Additional enhancements include a polished start page that outlines the app's purpose and a final end screen that summarizes the user’s performance with metrics like current streak, longest streak, and the number of mastered cards, plus an option to restart the quiz.
+
+Time spent: **7** hours spent in total
 
 ## Required Features
 
@@ -20,24 +24,18 @@ The following **optional** features are implemented:
 - [X] A shuffle button is used to randomize the order of the cards
 - [X] A user's answer may be counted as correct even when it is slightly different from the target answer
 - [X] A counter displays the user's current and longest streak of correct responses
-- [ ] A user can mark a card that they have mastered and have it removed from the pool of answers as well as added to a list of mastered cards
+- [X] A user can mark a card that they have mastered and have it removed from the pool of answers as well as added to a list of mastered cards
 
 The following **additional** features are implemented:
 
 - [X] Modified the start page to include a brief description of the app and a button to start the flashcards
+- [X] Added a button to reset the flashcards when all the cards have been mastered
 
 ## Video Walkthrough
 
 Here's a walkthrough of implemented user stories:
 
 <img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Walkthrough' width='' alt='Video Walkthrough' />
-
-<!-- Replace this with whatever GIF tool you used! -->
-GIF created with ...  
-<!-- Recommended tools:
-[Kap](https://getkap.co/) for macOS
-[ScreenToGif](https://www.screentogif.com/) for Windows
-[peek](https://github.com/phw/peek) for Linux. -->
 
 ## Notes
 
